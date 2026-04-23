@@ -7,9 +7,22 @@ const { validate, schemas } = require('../middleware/validation');
 const { asyncHandler } = require('../middleware/errorHandler');
 const authController = require('../controllers/authController');
 
+// Test route
+router.get('/test', (req, res) => {
+  res.json({ success: true, message: 'Auth routes working!' });
+});
+
 // Public routes
-router.post('/register', validate(schemas.register), asyncHandler(authController.register));
-router.post('/login', validate(schemas.login), asyncHandler(authController.login));
+router.post('/register', asyncHandler(authController.register));
+
+router.post('/login', (req, res, next) => {
+  try {
+    return validate(schemas.login)(req, res, next);
+  } catch (error) {
+    console.error('Validation error:', error);
+    next(error);
+  }
+}, asyncHandler(authController.login));
 
 // Protected routes
 router.get('/validate', authenticate, asyncHandler(authController.validateToken));
