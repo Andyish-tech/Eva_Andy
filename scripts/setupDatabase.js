@@ -14,7 +14,7 @@ async function setupDatabase() {
     console.log('Database created or already exists');
 
     // Switch to the database
-    await connection.execute(`USE ${process.env.DB_NAME || 'klein_ecommerce'}`);
+    await connection.query(`USE ${process.env.DB_NAME || 'klein_ecommerce'}`);
 
     // Create tables
     await createTables(connection);
