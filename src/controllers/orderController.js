@@ -152,167 +152,21 @@ const checkout = async (req, res, next) => {
     const userId = req.user.id;
     const { shipping_address, billing_address, payment_method, notes } = req.body;
     const io = req.app.get('io');
+    
+    // Import the OrderService here or at the top of the file
+    const orderService = require('../services/orderService');
 
-    // Get user's cart
-    const cartQuery = `
-      SELECT 
-        ci.id as cart_item_id,
-        ci.quantity,
-        p.id as product_id,
-        p.name,
-        p.price,
-        p.stock_quantity,
-        p.is_active,
-        (ci.quantity * p.price) as item_total
-      FROM cart_items ci
-      JOIN carts c ON ci.cart_id = c.id
-      JOIN products p ON ci.product_id = p.id
-      WHERE c.user_id = ?
-    `;
-
-    const cartItems = await executeQuery(cartQuery, [userId]);
-
-    if (cartItems.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Cart is empty',
-        error: 'EMPTY_CART'
-      });
-    }
-
-    // Validate stock and product availability
-    for (const item of cartItems) {
-      if (!item.is_active) {
-        return res.status(400).json({
-          success: false,
-          message: `Product '${item.name}' is no longer available`,
-          error: 'PRODUCT_NOT_AVAILABLE',
-          product_id: item.product_id
-        });
-      }
-
-      if (item.stock_quantity < item.quantity) {
-        return res.status(400).json({
-          success: false,
-          message: `Insufficient stock for product '${item.name}'`,
-          error: 'INSUFFICIENT_STOCK',
-          product_id: item.product_id,
-          requested_quantity: item.quantity,
-          available_quantity: item.stock_quantity
-        });
-      }
-    }
-
-    // Calculate total amount
-    const totalAmount = cartItems.reduce((sum, item) => sum + item.item_total, 0);
-
-    // Generate order number
-    const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
-
-    // Start transaction
-    const transactionQueries = [
-      // Create order
-      {
-        query: `
-          INSERT INTO orders (user_id, order_number, status, total_amount, shipping_address, billing_address, notes)
-          VALUES (?, ?, 'pending', ?, ?, ?, ?)
-        `,
-        params: [userId, orderNumber, totalAmount, shipping_address, billing_address || shipping_address, notes]
-      },
-      // Create payment record
-      {
-        query: `
-          INSERT INTO payments (order_id, payment_method, amount, status)
-          VALUES (?, ?, ?, 'pending')
-        `,
-        params: [] // Will be set after order creation
-      }
-    ];
-
-    // Add order items queries
-    for (const item of cartItems) {
-      transactionQueries.push({
-        query: `
-          INSERT INTO order_items (order_id, product_id, quantity, unit_price, total_price)
-          VALUES (?, ?, ?, ?, ?)
-        `,
-        params: [] // Will be set after order creation
-      });
-
-      // Update product stock
-      transactionQueries.push({
-        query: `
-          UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?
-        `,
-        params: [item.quantity, item.product_id]
-      });
-    }
-
-    // Clear cart
-    transactionQueries.push({
-      query: `
-        DELETE ci FROM cart_items ci
-        JOIN carts c ON ci.cart_id = c.id
-        WHERE c.user_id = ?
-      `,
-      params: [userId]
-    });
-
-    // Execute transaction
-    const results = await executeTransaction(transactionQueries);
-
-    const orderId = results[0].insertId;
-
-    // Update payment record with order_id
-    await executeQuery(
-      'UPDATE payments SET order_id = ? WHERE id = ?',
-      [orderId, results[1].insertId]
+    // Delegate the complex transaction and business logic to OrderService
+    const { orderId, orderNumber, totalAmount } = await orderService.checkout(
+      userId,
+      shipping_address,
+      billing_address,
+      payment_method,
+      notes
     );
 
-    // Update order items with order_id
-    let itemIndex = 2;
-    for (const item of cartItems) {
-      await executeQuery(
-        'UPDATE order_items SET order_id = ? WHERE id = ?',
-        [orderId, results[itemIndex].insertId]
-      );
-      itemIndex += 2; // Skip stock update queries
-    }
-
-    // Get complete order details
-    const completeOrder = await executeQuery(
-      `
-      SELECT 
-        o.*,
-        u.first_name,
-        u.last_name,
-        u.email
-      FROM orders o
-      JOIN users u ON o.user_id = u.id
-      WHERE o.id = ?
-      `,
-      [orderId]
-    );
-
-    // Get order items
-    const orderItems = await executeQuery(
-      `
-      SELECT 
-        oi.*,
-        p.name,
-        p.sku,
-        p.image_url
-      FROM order_items oi
-      JOIN products p ON oi.product_id = p.id
-      WHERE oi.order_id = ?
-      `,
-      [orderId]
-    );
-
-    const order = {
-      ...completeOrder[0],
-      items: orderItems
-    };
+    // Get the complete order data to return in response
+    const order = await orderService.getCompleteOrder(orderId);
 
     // Emit real-time notification
     io.to(`user_${userId}`).emit('order_created', {
@@ -333,9 +187,7 @@ const checkout = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: 'Order created successfully',
-      data: {
-        order
-      }
+      data: { order }
     });
 
   } catch (error) {

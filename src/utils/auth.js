@@ -3,8 +3,14 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const SALT_ROUNDS = 12;
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('FATAL ERROR: JWT_SECRET environment variable is not defined.');
+  process.exit(1);
+}
 const JWT_EXPIRE = process.env.JWT_EXPIRE || '7d';
+
+const { executeQuery } = require('../config/database');
 
 // Hash password
 async function hashPassword(password) {
@@ -145,6 +151,39 @@ function validatePasswordStrength(password) {
   };
 }
 
+// Blacklist a token
+async function blacklistToken(token) {
+  try {
+    const decoded = jwt.decode(token);
+    if (!decoded || !decoded.exp) return;
+    
+    // Calculate expiration date
+    const expiresAt = new Date(decoded.exp * 1000);
+    
+    await executeQuery(
+      'INSERT INTO token_blacklist (token, expires_at) VALUES (?, ?)',
+      [token, expiresAt]
+    );
+  } catch (error) {
+    console.error('Token blacklisting error:', error);
+    // Ignore duplicates or other errors
+  }
+}
+
+// Check if a token is blacklisted
+async function isTokenBlacklisted(token) {
+  try {
+    const result = await executeQuery(
+      'SELECT id FROM token_blacklist WHERE token = ?',
+      [token]
+    );
+    return result.length > 0;
+  } catch (error) {
+    console.error('Check blacklist error:', error);
+    return false;
+  }
+}
+
 module.exports = {
   hashPassword,
   comparePassword,
@@ -153,5 +192,7 @@ module.exports = {
   generateRefreshToken,
   verifyRefreshToken,
   extractTokenFromHeader,
-  validatePasswordStrength
+  validatePasswordStrength,
+  blacklistToken,
+  isTokenBlacklisted
 };

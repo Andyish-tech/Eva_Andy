@@ -191,6 +191,17 @@ async function createTables(connection) {
     ) ENGINE=InnoDB
   `);
 
+  // Token blacklist table
+  await connection.execute(`
+    CREATE TABLE IF NOT EXISTS token_blacklist (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      token VARCHAR(500) NOT NULL UNIQUE,
+      expires_at TIMESTAMP NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      INDEX idx_token (token)
+    ) ENGINE=InnoDB
+  `);
+
   console.log('All tables created successfully');
 }
 

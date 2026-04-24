@@ -205,11 +205,16 @@ const refreshToken = async (req, res, next) => {
   }
 };
 
-// Logout (client-side token removal)
+// Logout (client-side token removal + server-side blacklisting)
 const logout = async (req, res, next) => {
   try {
-    // In a stateless JWT implementation, logout is handled client-side
-    // But we can add token blacklisting in a production environment
+    const authHeader = req.headers.authorization;
+    const { extractTokenFromHeader, blacklistToken } = require('../utils/auth');
+    const token = extractTokenFromHeader(authHeader);
+    
+    if (token) {
+      await blacklistToken(token);
+    }
     
     res.status(200).json({
       success: true,

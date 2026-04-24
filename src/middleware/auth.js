@@ -1,4 +1,4 @@
-const { verifyToken, extractTokenFromHeader } = require('../utils/auth');
+const { verifyToken, extractTokenFromHeader, isTokenBlacklisted } = require('../utils/auth');
 
 // Authentication middleware
 const authenticate = async (req, res, next) => {
@@ -11,6 +11,16 @@ const authenticate = async (req, res, next) => {
         success: false,
         message: 'Access token is required',
         error: 'MISSING_TOKEN'
+      });
+    }
+
+    // Check if token is blacklisted
+    const isBlacklisted = await isTokenBlacklisted(token);
+    if (isBlacklisted) {
+      return res.status(401).json({
+        success: false,
+        message: 'Token has been invalidated',
+        error: 'INVALID_TOKEN'
       });
     }
     

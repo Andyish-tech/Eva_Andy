@@ -62,9 +62,27 @@ async function executeTransaction(queries) {
   }
 }
 
+// Execute transaction with a callback for complex logic
+async function withTransaction(callback) {
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
+    const result = await callback(connection);
+    await connection.commit();
+    return result;
+  } catch (error) {
+    await connection.rollback();
+    console.error('Transaction error:', error);
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+
 module.exports = {
   pool,
   executeQuery,
   executeTransaction,
+  withTransaction,
   testConnection
 };
