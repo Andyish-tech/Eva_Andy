@@ -90,18 +90,18 @@ const Home = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {[
-              { icon: <Package className="w-8 h-8" />, titleKey: "wideSelection", descKey: "wideSelectionDesc", img: "https://images.unsplash.com/photo-1555529771-835f59bfc50c?w=500&h=300&fit=crop" },
-              { icon: <Shield className="w-8 h-8" />, titleKey: "secureShopping", descKey: "secureShoppingDesc", img: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500&h=300&fit=crop" },
-              { icon: <Headphones className="w-8 h-8" />, titleKey: "support247", descKey: "support247Desc", img: "https://images.unsplash.com/photo-1534536281715-e28d76689b4d?w=500&h=300&fit=crop" }
+              { icon: <Package className="w-10 h-10" />, titleKey: "wideSelection", descKey: "wideSelectionDesc" },
+              { icon: <Shield className="w-10 h-10" />, titleKey: "secureShopping", descKey: "secureShoppingDesc" },
+              { icon: <Headphones className="w-10 h-10" />, titleKey: "support247", descKey: "support247Desc" }
             ].map((feature, index) => (
-              <div key={index} className="flex flex-col group">
-                <div className="rounded-3xl overflow-hidden mb-6 aspect-video">
-                  <img src={feature.img} alt={t(feature.titleKey)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div key={index} className="flex flex-col items-center text-center group bg-gray-50 p-8 rounded-[2rem] hover:shadow-float transition-shadow border border-gray-100">
+                <div className="bg-primary-100 text-primary-500 w-20 h-20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                  {feature.icon}
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">
                   {t(feature.titleKey)}
                 </h3>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg text-gray-600 font-medium">
                   {t(feature.descKey)}
                 </p>
               </div>
