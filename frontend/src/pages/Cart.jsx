@@ -41,7 +41,7 @@ const Cart = () => {
         </p>
         <Link
           to="/products"
-          className="bg-primary-500 text-white px-8 py-4 rounded-full font-bold inline-flex items-center hover:bg-primary-600 transition shadow-float"
+          className="bg-primary-500 text-white px-8 py-4 rounded-full font-bold inline-flex items-center hover:bg-primary-600 hover:scale-105 transition-all duration-300 shadow-float"
         >
           {t('continueShopping')}
         </Link>
@@ -114,7 +114,7 @@ const Cart = () => {
                     
                     <button
                       onClick={() => removeFromCart(item.productId)}
-                      className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-primary-500 hover:bg-primary-50 rounded-full transition-colors"
+                      className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-primary-500 hover:bg-primary-50 hover:scale-110 rounded-full transition-all duration-300"
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
@@ -161,7 +161,7 @@ const Cart = () => {
 
               <button
                 onClick={handleCheckout}
-                className="w-full flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 text-white py-4 px-6 rounded-full font-bold text-lg transition shadow-lg"
+                className="w-full flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 hover:scale-105 text-white py-4 px-6 rounded-full font-bold text-lg transition-all duration-300 shadow-lg"
               >
                 Checkout <ChevronRight className="w-5 h-5" />
               </button>

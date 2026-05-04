@@ -116,13 +116,13 @@ const Products = () => {
                 
                 <ul className="space-y-1">
                   <li>
-                    <Link to="/" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition text-gray-600 hover:bg-gray-50">
+                    <Link to="/" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition-all duration-300 text-gray-600 hover:bg-gray-50 hover:scale-105">
                       <Home className="w-5 h-5 text-gray-400" />
                       {t('home')}
                     </Link>
                   </li>
                   <li>
-                    <Link to="/cart" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition text-gray-600 hover:bg-gray-50">
+                    <Link to="/cart" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition-all duration-300 text-gray-600 hover:bg-gray-50 hover:scale-105">
                       <ShoppingCart className="w-5 h-5 text-gray-400" />
                       {t('cart')}
                       {cartCount > 0 && (
@@ -254,7 +254,7 @@ const Products = () => {
                   <div
                     key={product.id}
                     onClick={() => handleProductClick(product.id)}
-                    className="group cursor-pointer flex flex-col bg-white p-4 rounded-3xl shadow-sm hover:shadow-float transition-all border border-gray-100"
+                    className="group cursor-pointer flex flex-col bg-white p-4 rounded-3xl shadow-sm hover:shadow-float hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 border border-gray-100"
                   >
                     {/* Image container */}
                     <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-gray-50 mb-4">

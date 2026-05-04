@@ -30,7 +30,7 @@ const Home = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link
                 to="/products"
-                className="bg-primary-500 text-white px-8 py-4 text-lg font-bold rounded-full hover:bg-primary-600 transition shadow-float inline-flex items-center"
+                className="bg-primary-500 text-white px-8 py-4 text-lg font-bold rounded-full hover:bg-primary-600 hover:scale-105 transition-all duration-300 shadow-float inline-flex items-center"
               >
                 {t('startShopping')}
               </Link>
@@ -94,8 +94,8 @@ const Home = () => {
               { icon: <Shield className="w-10 h-10" />, titleKey: "secureShopping", descKey: "secureShoppingDesc" },
               { icon: <Headphones className="w-10 h-10" />, titleKey: "support247", descKey: "support247Desc" }
             ].map((feature, index) => (
-              <div key={index} className="flex flex-col items-center text-center group bg-gray-50 p-8 rounded-[2rem] hover:shadow-float transition-shadow border border-gray-100">
-                <div className="bg-primary-100 text-primary-500 w-20 h-20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-sm">
+              <div key={index} className="flex flex-col items-center text-center group bg-gray-50 p-8 rounded-[2rem] hover:shadow-float hover:-translate-y-2 transition-all duration-500 border border-gray-100">
+                <div className="bg-primary-100 text-primary-500 w-20 h-20 rounded-full flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-500 shadow-sm">
                   {feature.icon}
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">
@@ -125,7 +125,7 @@ const Home = () => {
             <div className="z-10">
               <Link
                 to="/products"
-                className="bg-white text-primary-500 px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:bg-gray-100 transition inline-flex items-center"
+                className="bg-white text-primary-500 px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 inline-flex items-center"
               >
                 <ShoppingCart className="mr-3 w-6 h-6" />
                 {t('browseProducts')}

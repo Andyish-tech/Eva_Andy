@@ -108,13 +108,13 @@ const Navbar = ({ changeLanguage }) => {
             <div className="hidden lg:flex items-center gap-2">
               <Link
                 to="/login"
-                className="text-gray-900 hover:bg-gray-100 px-5 py-2.5 rounded-full font-bold transition-colors"
+                className="text-gray-900 hover:bg-gray-100 hover:scale-105 px-5 py-2.5 rounded-full font-bold transition-all duration-300"
               >
                 {t('login')}
               </Link>
               <Link
                 to="/register"
-                className="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-full font-bold transition-colors"
+                className="bg-gray-900 hover:bg-gray-800 hover:scale-105 text-white px-5 py-2.5 rounded-full font-bold transition-all duration-300"
               >
                 {t('signUp')}
               </Link>
@@ -124,7 +124,7 @@ const Navbar = ({ changeLanguage }) => {
           {/* Cart Button */}
           <Link
             to="/cart"
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold transition-colors ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold hover:scale-105 transition-all duration-300 ${
               cartCount > 0 
                 ? 'bg-primary-500 hover:bg-primary-600 text-white' 
                 : 'bg-gray-900 hover:bg-gray-800 text-white'
