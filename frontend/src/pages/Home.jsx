@@ -59,11 +59,11 @@ const Home = () => {
 
       {/* Categories Carousel (DoorDash style) */}
       <section className="py-16 container mx-auto px-4 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 tracking-tight">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 tracking-tight text-center">
           {t('shopByCategory')}
         </h2>
         
-        <div className="flex overflow-x-auto gap-6 pb-6 hide-scrollbar snap-x">
+        <div className="flex overflow-x-auto gap-6 pb-6 hide-scrollbar snap-x md:justify-center">
           {categories.map((category, index) => (
             <Link
               key={index}
