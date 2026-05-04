@@ -88,20 +88,20 @@ const Orders = () => {
     <div style={{ margin: '0 auto', padding: '32px 16px' }}>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '30px', fontWeight: 'bold', color: '#212121', marginBottom: '8px' }}>{t('orderHistory')}</h1>
-        <p style={{ color: '#525252' }}>Track and manage your orders</p>
+        <p style={{ color: '#525252' }}>{t('trackOrdersDesc')}</p>
       </div>
 
       {orders.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '64px 0' }}>
           <Package style={{ width: '96px', height: '96px', color: '#d1d5db', margin: '0 auto 16px' }} />
           <h2 style={{ fontSize: '24px', fontWeight: '600', color: '#212121', marginBottom: '8px' }}>
-            No Orders Yet
+            {t('noOrdersYet')}
           </h2>
           <p style={{ color: '#525252', marginBottom: '32px' }}>
-            You haven't placed any orders yet. Start shopping to see your orders here.
+            {t('noOrdersDesc')}
           </p>
           <button className="btn-primary">
-            Start Shopping
+            {t('startShopping')}
           </button>
         </div>
       ) : (
@@ -155,7 +155,7 @@ const Orders = () => {
                 {/* Expanded Order Details */}
                 {selectedOrder?.id === order.id && (
                   <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb' }}>
-                    <h4 style={{ fontWeight: '600', color: '#212121', marginBottom: '16px' }}>Order Items</h4>
+                    <h4 style={{ fontWeight: '600', color: '#212121', marginBottom: '16px' }}>{t('orderItems')}</h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {order.items?.map((item, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -169,7 +169,7 @@ const Orders = () => {
                               {item.product?.name || 'Product'}
                             </p>
                             <p style={{ fontSize: '14px', color: '#525252' }}>
-                              Qty: {item.quantity} × ${item.price}
+                              {t('qty')}: {item.quantity} × ${item.price}
                             </p>
                           </div>
                           <span style={{ fontWeight: '500', color: '#212121' }}>
@@ -181,14 +181,14 @@ const Orders = () => {
 
                     {/* Order Timeline */}
                     <div style={{ marginTop: '24px' }}>
-                      <h4 style={{ fontWeight: '600', color: '#212121', marginBottom: '16px' }}>Order Timeline</h4>
+                      <h4 style={{ fontWeight: '600', color: '#212121', marginBottom: '16px' }}>{t('orderTimeline')}</h4>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                           <div style={{ width: '32px', height: '32px', backgroundColor: '#dcfce7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <CheckCircle style={{ width: '16px', height: '16px', color: '#166534' }} />
                           </div>
                           <div>
-                            <p style={{ fontWeight: '500', color: '#212121' }}>Order Placed</p>
+                            <p style={{ fontWeight: '500', color: '#212121' }}>{t('orderPlaced')}</p>
                             <p style={{ fontSize: '14px', color: '#525252' }}>{formatDate(order.createdAt)}</p>
                           </div>
                         </div>
@@ -199,8 +199,8 @@ const Orders = () => {
                               <Package style={{ width: '16px', height: '16px', color: '#1e40af' }} />
                             </div>
                             <div>
-                              <p style={{ fontWeight: '500', color: '#212121' }}>Processing</p>
-                              <p style={{ fontSize: '14px', color: '#525252' }}>Your order is being prepared</p>
+                              <p style={{ fontWeight: '500', color: '#212121' }}>{t('processing')}</p>
+                              <p style={{ fontSize: '14px', color: '#525252' }}>{t('processingDesc')}</p>
                             </div>
                           </div>
                         )}
@@ -211,8 +211,8 @@ const Orders = () => {
                               <Truck style={{ width: '16px', height: '16px', color: '#6d28d9' }} />
                             </div>
                             <div>
-                              <p style={{ fontWeight: '500', color: '#212121' }}>Shipped</p>
-                              <p style={{ fontSize: '14px', color: '#525252' }}>Order is on its way</p>
+                              <p style={{ fontWeight: '500', color: '#212121' }}>{t('shipped')}</p>
+                              <p style={{ fontSize: '14px', color: '#525252' }}>{t('shippedDesc')}</p>
                             </div>
                           </div>
                         ) : null}
@@ -223,8 +223,8 @@ const Orders = () => {
                               <CheckCircle style={{ width: '16px', height: '16px', color: '#166534' }} />
                             </div>
                             <div>
-                              <p style={{ fontWeight: '500', color: '#212121' }}>Delivered</p>
-                              <p style={{ fontSize: '14px', color: '#525252' }}>Order successfully delivered</p>
+                              <p style={{ fontWeight: '500', color: '#212121' }}>{t('delivered')}</p>
+                              <p style={{ fontSize: '14px', color: '#525252' }}>{t('deliveredDesc')}</p>
                             </div>
                           </div>
                         ) : null}
@@ -233,7 +233,7 @@ const Orders = () => {
 
                     {/* Shipping Address */}
                     <div style={{ marginTop: '24px' }}>
-                      <h4 style={{ fontWeight: '600', color: '#212121', marginBottom: '16px' }}>Shipping Address</h4>
+                      <h4 style={{ fontWeight: '600', color: '#212121', marginBottom: '16px' }}>{t('shippingAddress')}</h4>
                       <div style={{ backgroundColor: '#fafafa', padding: '16px', borderRadius: '8px' }}>
                         <p style={{ color: '#212121' }}>
                           {order.shippingAddress?.street || '123 Main St'}
@@ -255,26 +255,26 @@ const Orders = () => {
           {/* Order Stats */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Statistics</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('orderStatistics')}</h3>
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total Orders</span>
+                  <span className="text-gray-600">{t('totalOrders')}</span>
                   <span className="font-semibold">{orders.length}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total Spent</span>
+                  <span className="text-gray-600">{t('totalSpent')}</span>
                   <span className="font-semibold">
                     ${orders.reduce((sum, order) => sum + (order.total || order.totalAmount || 0), 0).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Pending Orders</span>
+                  <span className="text-gray-600">{t('pendingOrders')}</span>
                   <span className="font-semibold">
                     {orders.filter(order => order.status === 'pending').length}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Completed Orders</span>
+                  <span className="text-gray-600">{t('completedOrders')}</span>
                   <span className="font-semibold">
                     {orders.filter(order => order.status === 'delivered').length}
                   </span>
@@ -284,16 +284,16 @@ const Orders = () => {
 
             {/* Quick Actions */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('quickActions')}</h3>
               <div className="space-y-3">
                 <button className="w-full btn-secondary text-left">
-                  Download Invoice
+                  {t('downloadInvoice')}
                 </button>
                 <button className="w-full btn-secondary text-left">
-                  Contact Support
+                  {t('contactSupport')}
                 </button>
                 <button className="w-full btn-secondary text-left">
-                  Return/Exchange
+                  {t('returnExchange')}
                 </button>
               </div>
             </div>

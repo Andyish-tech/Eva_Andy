@@ -80,7 +80,7 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p className="text-center text-gray-500">Product not found</p>
+        <p className="text-center text-gray-500">{t('noProductsFound')}</p>
       </div>
     );
   }
@@ -99,7 +99,7 @@ const ProductDetail = () => {
         className="flex items-center text-gray-600 hover:text-gray-900 mb-6"
       >
         <ArrowLeft className="w-5 h-5 mr-2" />
-        Back to Products
+        {t('backToProducts')}
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -144,7 +144,7 @@ const ProductDetail = () => {
                 {renderStars(product.rating || 4)}
               </div>
               <span className="text-gray-600">
-                ({product.reviews || 0} reviews)
+                ({product.reviews || 0} {t('reviews')})
               </span>
             </div>
 
@@ -177,7 +177,7 @@ const ProductDetail = () => {
               <>
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 <span className="text-green-600">
-                  In Stock ({product.stock} available)
+                  {t('inStock')} ({product.stock} {t('available')})
                 </span>
               </>
             ) : (
@@ -246,24 +246,24 @@ const ProductDetail = () => {
               <div className="flex items-center space-x-3">
                 <Truck className="w-6 h-6 text-blue-600" />
                 <div>
-                  <p className="font-medium">Free Delivery</p>
-                  <p className="text-sm text-gray-600">On orders over $50</p>
+                  <p className="font-medium">{t('freeDeliveryFeature')}</p>
+                  <p className="text-sm text-gray-600">{t('freeDeliveryDesc')}</p>
                 </div>
               </div>
               
               <div className="flex items-center space-x-3">
                 <Shield className="w-6 h-6 text-blue-600" />
                 <div>
-                  <p className="font-medium">Secure Payment</p>
-                  <p className="text-sm text-gray-600">100% secure</p>
+                  <p className="font-medium">{t('securePayment')}</p>
+                  <p className="text-sm text-gray-600">{t('securePaymentDesc2')}</p>
                 </div>
               </div>
               
               <div className="flex items-center space-x-3">
                 <RotateCcw className="w-6 h-6 text-blue-600" />
                 <div>
-                  <p className="font-medium">Easy Returns</p>
-                  <p className="text-sm text-gray-600">30 days return</p>
+                  <p className="font-medium">{t('easyReturns')}</p>
+                  <p className="text-sm text-gray-600">{t('easyReturnsDesc2')}</p>
                 </div>
               </div>
             </div>
@@ -271,7 +271,7 @@ const ProductDetail = () => {
 
           {/* Product Details */}
           <div className="border-t pt-6">
-            <h3 className="font-semibold text-lg mb-4">Product Details</h3>
+            <h3 className="font-semibold text-lg mb-4">{t('productDetails')}</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="text-gray-600">SKU:</span>
@@ -282,11 +282,11 @@ const ProductDetail = () => {
                 <span className="ml-2 font-medium">{product.category || 'N/A'}</span>
               </div>
               <div>
-                <span className="text-gray-600">Brand:</span>
+                <span className="text-gray-600">{t('brand')}:</span>
                 <span className="ml-2 font-medium">{product.brand || 'N/A'}</span>
               </div>
               <div>
-                <span className="text-gray-600">Weight:</span>
+                <span className="text-gray-600">{t('weight')}:</span>
                 <span className="ml-2 font-medium">{product.weight || 'N/A'}</span>
               </div>
             </div>

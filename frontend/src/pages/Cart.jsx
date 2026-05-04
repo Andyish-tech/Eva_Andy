@@ -34,10 +34,10 @@ const Cart = () => {
           <ShoppingCart className="w-10 h-10 text-gray-400" />
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-3 tracking-tight">
-          Your cart is empty
+          {t('emptyCartTitle')}
         </h2>
         <p className="text-gray-500 mb-8 font-medium">
-          Add items to get started
+          {t('addItemsToGetStarted')}
         </p>
         <Link
           to="/products"
@@ -58,7 +58,7 @@ const Cart = () => {
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 lg:px-8 py-8 lg:py-12 max-w-6xl">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 tracking-tight">Checkout</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2 tracking-tight">{t('checkoutTitle')}</h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -127,19 +127,19 @@ const Cart = () => {
           {/* Order Summary Sidebar */}
           <div className="lg:col-span-5 xl:col-span-4">
             <div className="bg-gray-50 rounded-[2rem] p-6 lg:p-8 sticky top-24 border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 tracking-tight">Order Summary</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 tracking-tight">{t('orderSummaryTitle')}</h2>
               
               <div className="space-y-4 mb-6 font-medium">
                 <div className="flex justify-between text-gray-600">
-                  <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
+                  <span>{t('subtotal')} ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
                   <span className="text-gray-900">${subtotal.toFixed(2)}</span>
                 </div>
                 
                 <div className="flex justify-between text-gray-600">
-                  <span>Delivery Fee</span>
+                  <span>{t('deliveryFee')}</span>
                   <span>
                     {shipping === 0 ? (
-                      <span className="text-primary-500 font-bold">Free</span>
+                      <span className="text-primary-500 font-bold">{t('free')}</span>
                     ) : (
                       <span className="text-gray-900">${shipping.toFixed(2)}</span>
                     )}
@@ -147,14 +147,14 @@ const Cart = () => {
                 </div>
                 
                 <div className="flex justify-between text-gray-600">
-                  <span>Taxes & Fees</span>
+                  <span>{t('taxesAndFees')}</span>
                   <span className="text-gray-900">${tax.toFixed(2)}</span>
                 </div>
               </div>
               
               <div className="border-t border-gray-200 pt-4 mb-8">
                 <div className="flex justify-between items-center">
-                  <span className="text-xl font-bold text-gray-900">Total</span>
+                  <span className="text-xl font-bold text-gray-900">{t('total')}</span>
                   <span className="text-2xl font-bold text-gray-900">${total.toFixed(2)}</span>
                 </div>
               </div>
@@ -163,12 +163,12 @@ const Cart = () => {
                 onClick={handleCheckout}
                 className="w-full flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 hover:scale-105 text-white py-4 px-6 rounded-full font-bold text-lg transition-all duration-300 shadow-lg"
               >
-                Checkout <ChevronRight className="w-5 h-5" />
+                {t('checkoutTitle')} <ChevronRight className="w-5 h-5" />
               </button>
 
               <div className="mt-6 flex items-center justify-center gap-2 text-sm font-medium text-gray-500">
                 <ShieldCheck className="w-4 h-4 text-green-600" />
-                <span>Secure encrypted checkout</span>
+                <span>{t('secureEncryptedCheckout')}</span>
               </div>
             </div>
           </div>

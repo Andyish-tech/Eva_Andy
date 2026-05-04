@@ -30,16 +30,16 @@ const Register = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.firstName) newErrors.firstName = 'First name is required';
-    if (!formData.lastName) newErrors.lastName = 'Last name is required';
-    if (!formData.email) newErrors.email = 'Email is required';
+    if (!formData.firstName) newErrors.firstName = t('firstNameRequired');
+    if (!formData.lastName) newErrors.lastName = t('lastNameRequired');
+    if (!formData.email) newErrors.email = t('emailRequired');
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = t('passwordRequired');
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = t('passwordLengthError');
     }
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = t('passwordsMatchError');
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -66,8 +66,8 @@ const Register = () => {
     <div className="min-h-[85vh] flex items-center justify-center bg-white px-4 py-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Create an account</h2>
-          <p className="text-gray-500 mt-2 font-medium">Join KLEIN to start shopping</p>
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">{t('createAccount')}</h2>
+          <p className="text-gray-500 mt-2 font-medium">{t('joinKlein')}</p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -78,7 +78,7 @@ const Register = () => {
                 type="text"
                 required
                 className={`w-full px-5 py-4 bg-gray-50 border border-transparent rounded-2xl text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition font-medium ${errors.firstName ? 'ring-2 ring-primary-500' : ''}`}
-                placeholder="First name"
+                placeholder={t('firstName')}
                 value={formData.firstName}
                 onChange={handleChange}
               />
@@ -90,7 +90,7 @@ const Register = () => {
                 type="text"
                 required
                 className={`w-full px-5 py-4 bg-gray-50 border border-transparent rounded-2xl text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition font-medium ${errors.lastName ? 'ring-2 ring-primary-500' : ''}`}
-                placeholder="Last name"
+                placeholder={t('lastName')}
                 value={formData.lastName}
                 onChange={handleChange}
               />
@@ -104,7 +104,7 @@ const Register = () => {
               type="email"
               required
               className={`w-full px-5 py-4 bg-gray-50 border border-transparent rounded-2xl text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition font-medium ${errors.email ? 'ring-2 ring-primary-500' : ''}`}
-              placeholder="Email address"
+              placeholder={t('emailAddress')}
               value={formData.email}
               onChange={handleChange}
             />
@@ -117,7 +117,7 @@ const Register = () => {
               type="password"
               required
               className={`w-full px-5 py-4 bg-gray-50 border border-transparent rounded-2xl text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition font-medium ${errors.password ? 'ring-2 ring-primary-500' : ''}`}
-              placeholder="Password"
+              placeholder={t('password')}
               value={formData.password}
               onChange={handleChange}
             />
@@ -130,7 +130,7 @@ const Register = () => {
               type="password"
               required
               className={`w-full px-5 py-4 bg-gray-50 border border-transparent rounded-2xl text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition font-medium ${errors.confirmPassword ? 'ring-2 ring-primary-500' : ''}`}
-              placeholder="Confirm Password"
+              placeholder={t('confirmPassword')}
               value={formData.confirmPassword}
               onChange={handleChange}
             />
@@ -142,14 +142,14 @@ const Register = () => {
             disabled={loading}
             className="w-full bg-primary-500 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 hover:scale-105 transition-all duration-300 shadow-float disabled:opacity-70 flex justify-center items-center mt-6"
           >
-            {loading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : 'Sign Up'}
+            {loading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : t('signUp')}
           </button>
         </form>
 
         <p className="mt-8 text-center text-gray-600 font-medium">
-          Already have an account?{' '}
+          {t('alreadyHaveAccount')}{' '}
           <Link to="/login" className="text-primary-500 hover:text-primary-600 font-bold">
-            Sign in
+            {t('signInText')}
           </Link>
         </p>
       </div>

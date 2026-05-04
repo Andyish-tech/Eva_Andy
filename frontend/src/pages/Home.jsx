@@ -7,12 +7,12 @@ const Home = () => {
   const { t } = useTranslation();
 
   const categories = [
-    { name: "Clothing", image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&h=300&fit=crop" },
-    { name: "Shoes", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=300&fit=crop" },
-    { name: "Bags", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop" },
-    { name: "Jewellery", image: "https://images.unsplash.com/photo-1596944924616-7b38e7b24696?w=300&h=300&fit=crop" },
-    { name: "Cosmetics", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=300&fit=crop" },
-    { name: "Household", image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop" }
+    { name: t('categoryClothing'), value: "clothing", image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&h=300&fit=crop" },
+    { name: t('categoryShoes'), value: "shoes", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=300&fit=crop" },
+    { name: t('categoryBags'), value: "bags", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop" },
+    { name: t('categoryJewellery'), value: "jewellery", image: "https://images.unsplash.com/photo-1596944924616-7b38e7b24696?w=300&h=300&fit=crop" },
+    { name: t('categoryCosmetics'), value: "cosmetics", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=300&fit=crop" },
+    { name: t('categoryHousehold'), value: "household", image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop" }
   ];
 
   return (
@@ -25,7 +25,7 @@ const Home = () => {
               {t('welcome')}
             </h1>
             <p className="text-xl text-gray-700 mb-8 max-w-lg mx-auto lg:mx-0">
-              Discover amazing products at unbeatable prices. Shop from our wide range of clothing, shoes, bags, and more.
+              {t('heroDesc')}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link
@@ -48,8 +48,8 @@ const Home = () => {
                   <Truck className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="font-bold text-gray-900">Fast Delivery</p>
-                  <p className="text-sm text-gray-500">Right to your door</p>
+                  <p className="font-bold text-gray-900">{t('fastDeliveryFeature')}</p>
+                  <p className="text-sm text-gray-500">{t('rightToYourDoor')}</p>
                 </div>
               </div>
             </div>
@@ -67,7 +67,7 @@ const Home = () => {
           {categories.map((category, index) => (
             <Link
               key={index}
-              to={`/products?category=${category.name.toLowerCase()}`}
+              to={`/products?category=${category.value}`}
               className="flex-none w-32 sm:w-40 flex flex-col items-center group snap-start"
             >
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden mb-4 shadow-md group-hover:shadow-float transition-all bg-gray-100 border-4 border-transparent group-hover:border-primary-100">

@@ -113,7 +113,7 @@ const Profile = () => {
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <div style={{ marginBottom: '32px' }}>
           <h1 style={{ fontSize: '30px', fontWeight: 'bold', color: '#212121', marginBottom: '8px' }}>{t('profile')}</h1>
-          <p style={{ color: '#525252' }}>Manage your personal information and preferences</p>
+          <p style={{ color: '#525252' }}>{t('managePersonalInfo')}</p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: '32px' }}>
@@ -129,27 +129,27 @@ const Profile = () => {
               <p style={{ color: '#525252', marginBottom: '16px' }}>{user.email}</p>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#525252' }}>
                 <span style={{ backgroundColor: '#dcfce7', color: '#065f46', padding: '4px 8px', borderRadius: '9999px', fontSize: '12px', fontWeight: '500' }}>
-                  {user.role || 'Customer'}
+                  {user.role || t('customer')}
                 </span>
               </div>
             </div>
 
             {/* Quick Stats */}
             <div style={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)', padding: '24px', marginTop: '24px' }}>
-              <h3 style={{ fontWeight: '600', color: '#212121', marginBottom: '16px' }}>Account Stats</h3>
+              <h3 style={{ fontWeight: '600', color: '#212121', marginBottom: '16px' }}>{t('accountStats')}</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: '#525252' }}>Member Since</span>
+                  <span style={{ color: '#525252' }}>{t('memberSince')}</span>
                   <span style={{ fontWeight: '500' }}>
                     {new Date(user.createdAt).toLocaleDateString()}
                   </span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: '#525252' }}>Total Orders</span>
+                  <span style={{ color: '#525252' }}>{t('totalOrders')}</span>
                   <span style={{ fontWeight: '500' }}>{user.totalOrders || 0}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: '#525252' }}>Total Spent</span>
+                  <span style={{ color: '#525252' }}>{t('totalSpent')}</span>
                   <span style={{ fontWeight: '500' }}>${user.totalSpent || 0}</span>
                 </div>
               </div>
@@ -160,14 +160,14 @@ const Profile = () => {
           <div style={{ gridColumn: 'span 1' }}>
             <div style={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)', padding: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#212121' }}>Personal Information</h3>
+                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#212121' }}>{t('personalInfo')}</h3>
                 {!editing ? (
                   <button
                     onClick={() => setEditing(true)}
                     style={{ display: 'flex', alignItems: 'center', color: '#E53935', cursor: 'pointer', border: 'none', background: 'none' }}
                   >
                     <Edit2 style={{ width: '16px', height: '16px', marginRight: '8px' }} />
-                    Edit
+                    {t('edit')}
                   </button>
                 ) : (
                   <div style={{ display: 'flex', gap: '8px' }}>
@@ -176,7 +176,7 @@ const Profile = () => {
                       style={{ display: 'flex', alignItems: 'center', color: '#525252', cursor: 'pointer', border: 'none', background: 'none' }}
                     >
                       <X style={{ width: '16px', height: '16px', marginRight: '8px' }} />
-                      Cancel
+                      {t('cancel')}
                     </button>
                     <button
                       onClick={handleSubmit}
@@ -184,7 +184,7 @@ const Profile = () => {
                       style={{ display: 'flex', alignItems: 'center', color: '#E53935', cursor: loading ? 'default' : 'pointer', border: 'none', background: 'none', opacity: loading ? 0.5 : 1 }}
                     >
                       <Save style={{ width: '16px', height: '16px', marginRight: '8px' }} />
-                      Save
+                      {t('save')}
                     </button>
                   </div>
                 )}
@@ -273,7 +273,7 @@ const Profile = () => {
 
                 <div>
                   <label htmlFor="address" style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#212121', marginBottom: '4px' }}>
-                    Address
+                    {t('address')}
                   </label>
                   <div style={{ position: 'relative' }}>
                     <MapPin style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#525252', width: '20px', height: '20px' }} />
@@ -292,12 +292,12 @@ const Profile = () => {
 
               {/* Additional Settings */}
               <div style={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)', padding: '24px', marginTop: '24px' }}>
-                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#212121', marginBottom: '24px' }}>Preferences</h3>
+                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#212121', marginBottom: '24px' }}>{t('preferences')}</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
-                      <p style={{ fontSize: '16px', fontWeight: '500', color: '#212121' }}>Email Notifications</p>
-                      <p style={{ fontSize: '14px', color: '#525252' }}>Receive order updates and promotional emails</p>
+                      <p style={{ fontSize: '16px', fontWeight: '500', color: '#212121' }}>{t('emailNotifications')}</p>
+                      <p style={{ fontSize: '14px', color: '#525252' }}>{t('emailNotificationsDesc')}</p>
                     </div>
                     <button style={{ position: 'relative', display: 'inline-flex', height: '24px', width: '44px', alignItems: 'center', borderRadius: '9999px', backgroundColor: '#E53935' }}>
                       <span style={{ display: 'inline-block', height: '16px', width: '16px', transform: 'translateX(6px)', borderRadius: '9999px', backgroundColor: 'white', transition: 'transform 0.2s' }}></span>
@@ -305,8 +305,8 @@ const Profile = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
-                      <p style={{ fontSize: '16px', fontWeight: '500', color: '#212121' }}>SMS Notifications</p>
-                      <p style={{ fontSize: '14px', color: '#525252' }}>Get order status via text message</p>
+                      <p style={{ fontSize: '16px', fontWeight: '500', color: '#212121' }}>{t('smsNotifications')}</p>
+                      <p style={{ fontSize: '14px', color: '#525252' }}>{t('smsNotificationsDesc')}</p>
                     </div>
                     <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200">
                       <span className="inline-block h-4 w-4 transform rounded-full bg-white transition translate-x-1"></span>

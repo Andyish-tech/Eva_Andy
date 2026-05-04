@@ -54,7 +54,7 @@ const Navbar = ({ changeLanguage }) => {
           <input
             type="text"
             className="block w-full pl-11 pr-4 py-3 bg-gray-100 border-transparent rounded-full text-gray-900 placeholder-gray-500 focus:bg-white focus:border-gray-300 focus:ring-2 focus:ring-gray-200 outline-none transition-colors sm:text-sm font-medium"
-            placeholder={t('search') + " products..."}
+            placeholder={t('search')}
           />
         </div>
 
@@ -67,7 +67,7 @@ const Navbar = ({ changeLanguage }) => {
               className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-full transition-colors font-medium"
             >
               <Globe className="w-5 h-5" />
-              <span>{i18n.language === 'en' ? 'EN' : 'FR'}</span>
+              <span>{i18n.language === 'en' ? 'EN' : i18n.language === 'fr' ? 'FR' : 'RW'}</span>
             </button>
             {isLangMenuOpen && (
               <div className="absolute top-full right-0 mt-2 w-32 bg-white rounded-xl shadow-float border border-gray-100 py-2 z-50">
@@ -82,6 +82,12 @@ const Navbar = ({ changeLanguage }) => {
                   className={`w-full text-left px-4 py-2 hover:bg-gray-50 text-sm font-medium ${i18n.language === 'fr' ? 'text-primary-500' : 'text-gray-700'}`}
                 >
                   Français
+                </button>
+                <button
+                  onClick={() => { changeLanguage('rw'); setIsLangMenuOpen(false); }}
+                  className={`w-full text-left px-4 py-2 hover:bg-gray-50 text-sm font-medium ${i18n.language === 'rw' ? 'text-primary-500' : 'text-gray-700'}`}
+                >
+                  Kinyarwanda
                 </button>
               </div>
             )}
@@ -148,7 +154,7 @@ const Navbar = ({ changeLanguage }) => {
           {/* Slide-out Menu */}
           <div className="absolute top-0 left-0 w-80 max-w-full h-full bg-white shadow-xl flex flex-col overflow-y-auto">
             <div className="p-4 border-b border-gray-100 flex items-center justify-between">
-              <span className="text-xl font-bold text-gray-900">Menu</span>
+              <span className="text-xl font-bold text-gray-900">{t('menu')}</span>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="p-2 text-gray-500 hover:bg-gray-100 rounded-full"
@@ -202,7 +208,7 @@ const Navbar = ({ changeLanguage }) => {
               <div className="flex items-center justify-between px-4 py-2">
                 <div className="flex items-center gap-2 text-gray-700 font-medium">
                   <Globe className="w-5 h-5" />
-                  Language
+                  {t('language')}
                 </div>
                 <div className="flex gap-2">
                   <button
@@ -216,6 +222,12 @@ const Navbar = ({ changeLanguage }) => {
                     className={`px-3 py-1 rounded-full text-sm font-bold ${i18n.language === 'fr' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700'}`}
                   >
                     FR
+                  </button>
+                  <button
+                    onClick={() => changeLanguage('rw')}
+                    className={`px-3 py-1 rounded-full text-sm font-bold ${i18n.language === 'rw' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700'}`}
+                  >
+                    RW
                   </button>
                 </div>
               </div>

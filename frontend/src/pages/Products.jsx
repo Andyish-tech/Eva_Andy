@@ -165,7 +165,7 @@ const Products = () => {
 
                 <div className="mt-4 pt-4 border-t border-gray-100 px-2 flex items-center justify-between">
                   <div className="flex items-center gap-2 text-gray-600 font-medium text-sm">
-                    <Globe className="w-4 h-4" /> Lang
+                    <Globe className="w-4 h-4" /> {t('language')}
                   </div>
                   <div className="flex gap-2">
                     <button
@@ -180,6 +180,12 @@ const Products = () => {
                     >
                       FR
                     </button>
+                    <button
+                      onClick={() => changeLanguage('rw')}
+                      className={`px-2 py-1 rounded-md text-xs font-bold ${i18n.language === 'rw' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700'}`}
+                    >
+                      RW
+                    </button>
                   </div>
                 </div>
               </div>
@@ -190,7 +196,7 @@ const Products = () => {
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="text"
-                    placeholder={t('search') + "..."}
+                    placeholder={t('search')}
                     value={filters.search}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
                     className="w-full pl-11 pr-4 py-3 bg-gray-50 border-transparent rounded-full text-gray-900 focus:bg-white focus:ring-2 focus:ring-primary-500 outline-none transition font-medium"
@@ -200,7 +206,7 @@ const Products = () => {
 
               {/* Categories Navigation */}
               <div className="bg-white p-5 rounded-3xl shadow-sm border border-gray-100">
-                <h3 className="font-bold text-lg text-gray-900 mb-4 px-2">Categories</h3>
+                <h3 className="font-bold text-lg text-gray-900 mb-4 px-2">{t('categoriesTitle')}</h3>
                 <ul className="space-y-1">
                   <li>
                     <button
@@ -209,7 +215,7 @@ const Products = () => {
                         !filters.category ? 'bg-primary-50 text-primary-500' : 'text-gray-600 hover:bg-gray-50'
                       }`}
                     >
-                      All Products
+                      {t('allProducts')}
                       {!filters.category && <ChevronRight className="w-5 h-5" />}
                     </button>
                   </li>
@@ -235,7 +241,7 @@ const Products = () => {
           <div className="flex-1">
             <div className="mb-6 hidden lg:block">
               <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
-                {filters.category ? filters.category : 'All Products'}
+                {filters.category ? filters.category : t('allProducts')}
               </h2>
             </div>
 
@@ -245,8 +251,8 @@ const Products = () => {
               </div>
             ) : products.length === 0 ? (
               <div className="bg-white rounded-3xl p-12 text-center shadow-sm border border-gray-100">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">No products found</h3>
-                <p className="text-gray-500 text-lg">Try adjusting your filters or search query.</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('noProductsFound')}</h3>
+                <p className="text-gray-500 text-lg">{t('adjustFilters')}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
