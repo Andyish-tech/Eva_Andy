@@ -23,6 +23,8 @@ const Navbar = ({ changeLanguage }) => {
   const isActive = (path) => location.pathname === path;
   const cartCount = getCartCount();
 
+  if (location.pathname === '/products') return null;
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 h-16 bg-white z-50 border-b border-gray-200 shadow-sm flex items-center justify-between px-4 lg:px-8">

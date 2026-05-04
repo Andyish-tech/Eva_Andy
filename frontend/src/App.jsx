@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -14,6 +14,17 @@ import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
+const MainLayout = ({ children }) => {
+  const location = useLocation();
+  const isShopping = location.pathname === '/products';
+  
+  return (
+    <main className={`flex-1 ${isShopping ? '' : 'pt-16'}`}>
+      {children}
+    </main>
+  );
+};
+
 function App() {
   const { i18n } = useTranslation();
 
@@ -26,7 +37,7 @@ function App() {
       <CartProvider>
         <div className="min-h-screen bg-white flex flex-col font-sans">
           <Navbar changeLanguage={changeLanguage} />
-          <main className="flex-1 pt-16"> {/* Add top padding for fixed navbar */}
+          <MainLayout>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<Products />} />
@@ -52,7 +63,7 @@ function App() {
               />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </main>
+          </MainLayout>
         </div>
       </CartProvider>
     </AuthProvider>

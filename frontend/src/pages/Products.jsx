@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { productsAPI, categoriesAPI } from '../services/api';
 import { useCart } from '../contexts/CartContext';
-import { Search, Star, Plus, ChevronRight } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { Search, Star, Plus, ChevronRight, Home, ShoppingCart, User, Package, LogOut, Globe } from 'lucide-react';
 
 const Products = () => {
-  const { t } = useTranslation();
-  const { addToCart } = useCart();
+  const { t, i18n } = useTranslation();
+  const { addToCart, getCartCount } = useCart();
+  const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   
@@ -19,6 +21,12 @@ const Products = () => {
     category: searchParams.get('category') || '',
   });
   
+  const cartCount = getCartCount();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   const fetchCategories = useCallback(async () => {
     try {
       const response = await categoriesAPI.getAll();
@@ -73,6 +81,11 @@ const Products = () => {
     await addToCart(product);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   const renderStars = (rating) => {
     return (
       <div className="flex items-center gap-1">
@@ -88,14 +101,87 @@ const Products = () => {
         
         <div className="flex flex-col lg:flex-row gap-8">
           
-          {/* Shopping Sidebar (Search & Categories) */}
+          {/* Shopping Sidebar (Search & Categories & Global Nav) */}
           <aside className="w-full lg:w-64 flex-shrink-0">
-            <div className="sticky top-24 space-y-6">
+            <div className="sticky top-8 space-y-6">
               
-              <div className="mb-2">
-                <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-                  {t('products')}
-                </h1>
+              {/* Main Navigation Panel */}
+              <div className="bg-white p-5 rounded-3xl shadow-sm border border-gray-100">
+                <Link to="/" className="flex items-center gap-3 mb-6 px-2">
+                  <div className="w-8 h-8 bg-primary-500 rounded-xl flex items-center justify-center">
+                    <span className="text-white font-bold text-lg">K</span>
+                  </div>
+                  <span className="text-xl font-bold text-primary-500 tracking-tight">KLEIN</span>
+                </Link>
+                
+                <ul className="space-y-1">
+                  <li>
+                    <Link to="/" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition text-gray-600 hover:bg-gray-50">
+                      <Home className="w-5 h-5 text-gray-400" />
+                      {t('home')}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/cart" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition text-gray-600 hover:bg-gray-50">
+                      <ShoppingCart className="w-5 h-5 text-gray-400" />
+                      {t('cart')}
+                      {cartCount > 0 && (
+                        <span className="ml-auto bg-primary-500 text-white text-xs px-2 py-1 rounded-full">{cartCount}</span>
+                      )}
+                    </Link>
+                  </li>
+                  {isAuthenticated ? (
+                    <>
+                      <li>
+                        <Link to="/orders" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition text-gray-600 hover:bg-gray-50">
+                          <Package className="w-5 h-5 text-gray-400" />
+                          {t('orders')}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/profile" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition text-gray-600 hover:bg-gray-50">
+                          <User className="w-5 h-5 text-gray-400" />
+                          {t('profile')}
+                        </Link>
+                      </li>
+                      <li>
+                        <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition text-red-600 hover:bg-red-50">
+                          <LogOut className="w-5 h-5 text-red-400" />
+                          {t('logout')}
+                        </button>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>
+                        <Link to="/login" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left font-bold transition text-gray-600 hover:bg-gray-50">
+                          <User className="w-5 h-5 text-gray-400" />
+                          {t('login')}
+                        </Link>
+                      </li>
+                    </>
+                  )}
+                </ul>
+
+                <div className="mt-4 pt-4 border-t border-gray-100 px-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-gray-600 font-medium text-sm">
+                    <Globe className="w-4 h-4" /> Lang
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => changeLanguage('en')}
+                      className={`px-2 py-1 rounded-md text-xs font-bold ${i18n.language === 'en' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700'}`}
+                    >
+                      EN
+                    </button>
+                    <button
+                      onClick={() => changeLanguage('fr')}
+                      className={`px-2 py-1 rounded-md text-xs font-bold ${i18n.language === 'fr' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700'}`}
+                    >
+                      FR
+                    </button>
+                  </div>
+                </div>
               </div>
 
               {/* Search Box */}
