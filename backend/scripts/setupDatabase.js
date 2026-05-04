@@ -18,6 +18,10 @@ async function setupDatabase() {
 
     // Create tables
     await createTables(connection);
+    
+    // Insert sample data
+    await insertSampleData(connection);
+    
     console.log('Database setup completed successfully!');
 
   } catch (error) {
@@ -211,20 +215,24 @@ async function insertSampleData(connection) {
     // Insert sample categories
     await connection.execute(`
       INSERT IGNORE INTO categories (id, name, description) VALUES
-      (1, 'Electronics', 'Electronic devices and gadgets'),
-      (2, 'Clothing', 'Fashion and apparel'),
-      (3, 'Books', 'Books and literature'),
-      (4, 'Home & Garden', 'Home improvement and garden supplies')
+      (1, 'clothing', 'Fashion and apparel'),
+      (2, 'shoes', 'Footwear for all occasions'),
+      (3, 'bags', 'Handbags, backpacks, and luggage'),
+      (4, 'jewellery', 'Fine and fashion jewellery'),
+      (5, 'cosmetics', 'Beauty and personal care products'),
+      (6, 'household', 'Home and living essentials')
     `);
 
     // Insert sample products
     await connection.execute(`
       INSERT IGNORE INTO products (id, name, description, price, category_id, sku, stock_quantity) VALUES
-      (1, 'Laptop Pro', 'High-performance laptop for professionals', 1299.99, 1, 'LP-001', 50),
-      (2, 'Wireless Mouse', 'Ergonomic wireless mouse', 29.99, 1, 'WM-002', 200),
-      (3, 'Cotton T-Shirt', 'Comfortable cotton t-shirt', 19.99, 2, 'CT-003', 100),
-      (4, 'JavaScript Guide', 'Complete JavaScript programming guide', 39.99, 3, 'JS-004', 75),
-      (5, 'Garden Tools Set', 'Complete garden tools set', 89.99, 4, 'GT-005', 30)
+      (1, 'Cotton T-Shirt', 'Comfortable cotton t-shirt', 19.99, 1, 'CL-001', 100),
+      (2, 'Denim Jacket', 'Classic denim jacket', 59.99, 1, 'CL-002', 50),
+      (3, 'Running Sneakers', 'Lightweight running shoes', 89.99, 2, 'SH-001', 200),
+      (4, 'Leather Handbag', 'Premium leather handbag', 129.99, 3, 'BG-001', 75),
+      (5, 'Silver Necklace', 'Sterling silver pendant necklace', 249.99, 4, 'JW-001', 30),
+      (6, 'Hydrating Face Cream', 'Daily moisturizing face cream', 34.99, 5, 'CS-001', 150),
+      (7, 'Ceramic Vase', 'Hand-crafted ceramic vase', 45.99, 6, 'HH-001', 40)
     `);
 
     console.log('Sample data inserted successfully');

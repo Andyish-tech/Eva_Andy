@@ -35,8 +35,10 @@ const Register = () => {
     if (!formData.email) newErrors.email = t('emailRequired');
     if (!formData.password) {
       newErrors.password = t('passwordRequired');
-    } else if (formData.password.length < 6) {
-      newErrors.password = t('passwordLengthError');
+    } else if (formData.password.length < 8) {
+      newErrors.password = t('passwordLengthError') || 'Password must be at least 8 characters long';
+    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/.test(formData.password)) {
+      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
     }
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = t('passwordsMatchError');
@@ -50,7 +52,13 @@ const Register = () => {
     if (!validateForm()) return;
     setLoading(true);
     try {
-      const { confirmPassword, ...dataToSend } = formData;
+      const { firstName, lastName, email, password } = formData;
+      const dataToSend = {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password
+      };
       const result = await register(dataToSend);
       if (result.success) {
         navigate('/');

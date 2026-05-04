@@ -21,8 +21,8 @@ const Profile = () => {
   useEffect(() => {
     if (user) {
       setFormData({
-        firstName: user.firstName || '',
-        lastName: user.lastName || '',
+        firstName: user.first_name || user.firstName || '',
+        lastName: user.last_name || user.lastName || '',
         email: user.email || '',
         phone: user.phone || '',
         address: user.address || ''
@@ -77,7 +77,13 @@ const Profile = () => {
     
     setLoading(true);
     try {
-      const response = await usersAPI.updateProfile(formData);
+      const payload = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: formData.phone,
+        address: formData.address
+      };
+      const response = await usersAPI.updateProfile(payload);
       updateUser(response.data);
       setEditing(false);
       // Show success message (you can use toast here)
@@ -90,8 +96,8 @@ const Profile = () => {
 
   const handleCancel = () => {
     setFormData({
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
+      firstName: user?.first_name || user?.firstName || '',
+      lastName: user?.last_name || user?.lastName || '',
       email: user?.email || '',
       phone: user?.phone || '',
       address: user?.address || ''
