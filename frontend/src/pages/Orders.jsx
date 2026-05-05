@@ -26,9 +26,11 @@ const Orders = () => {
     try {
       setLoading(true);
       const response = await ordersAPI.getAll();
-      setOrders(response.data.orders || response.data);
+      const ordersData = response.data?.data?.orders || response.data?.orders || response.data || [];
+      setOrders(Array.isArray(ordersData) ? ordersData : []);
     } catch (error) {
       console.error('Error fetching orders:', error);
+      setOrders([]);
     } finally {
       setLoading(false);
     }

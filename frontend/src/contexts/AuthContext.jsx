@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   const validateToken = async () => {
     try {
       const response = await authAPI.validate();
-      setUser(response.data.user);
+      setUser(response.data?.data?.user || response.data?.user);
     } catch (error) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
@@ -65,10 +65,11 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const response = await authAPI.login(credentials);
-      const { token, user: userData } = response.data;
+      const data = response.data?.data || response.data;
+      const { token, user: userData } = data;
       
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(userData));
+      if (token) localStorage.setItem('token', token);
+      if (userData) localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
       
       toast.success('Login successful!');
@@ -83,10 +84,11 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await authAPI.register(userData);
-      const { token, user: newUser } = response.data;
+      const data = response.data?.data || response.data;
+      const { token, user: newUser } = data;
       
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(newUser));
+      if (token) localStorage.setItem('token', token);
+      if (newUser) localStorage.setItem('user', JSON.stringify(newUser));
       setUser(newUser);
       
       toast.success('Registration successful!');

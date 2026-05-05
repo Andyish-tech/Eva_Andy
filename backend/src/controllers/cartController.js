@@ -28,7 +28,7 @@ const getCart = async (req, res, next) => {
         p.stock_quantity,
         p.image_url,
         p.is_active,
-        c.name as category_name,
+        cat.name as category_name,
         (ci.quantity * p.price) as subtotal
       FROM cart_items ci
       JOIN carts c ON ci.cart_id = c.id

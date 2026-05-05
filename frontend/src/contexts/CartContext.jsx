@@ -28,7 +28,8 @@ export const CartProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await cartAPI.get();
-      setCartItems(response.data.items || []);
+      const itemsData = response.data?.data?.items || response.data?.items || response.data || [];
+      setCartItems(Array.isArray(itemsData) ? itemsData : []);
     } catch (error) {
       console.error('Error fetching cart:', error);
       setCartItems([]);
@@ -47,7 +48,7 @@ export const CartProvider = ({ children }) => {
             // Loop through and add each item to the user's account
             for (const item of guestCart) {
               await cartAPI.add({
-                productId: item.productId,
+                product_id: item.productId,
                 quantity: item.quantity,
                 price: item.price
               });
@@ -76,7 +77,7 @@ export const CartProvider = ({ children }) => {
       
       if (isAuthenticated) {
         await cartAPI.add({
-          productId: product.id,
+          product_id: product.id,
           quantity,
           price: product.price
         });

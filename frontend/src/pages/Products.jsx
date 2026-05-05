@@ -30,9 +30,11 @@ const Products = () => {
   const fetchCategories = useCallback(async () => {
     try {
       const response = await categoriesAPI.getAll();
-      setCategories(response.data);
+      const categoriesData = response.data?.data?.flat_list || response.data?.data?.categories || response.data?.categories || response.data || [];
+      setCategories(Array.isArray(categoriesData) ? categoriesData : []);
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories([]);
     }
   }, []);
 
@@ -44,8 +46,9 @@ const Products = () => {
       if (filters.search) params.append('search', filters.search);
       if (filters.category) params.append('category', filters.category);
       
-      const response = await productsAPI.getAll(params.toString());
-      setProducts(response.data.products || response.data);
+      const response = await productsAPI.getAll(Object.fromEntries(params));
+      const productsData = response.data?.data?.products || response.data?.products || response.data || [];
+      setProducts(Array.isArray(productsData) ? productsData : []);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {

@@ -54,7 +54,7 @@ const register = async (req, res, next) => {
     const result = await executeQuery(
       `INSERT INTO users (first_name, last_name, email, password_hash, phone) 
        VALUES (?, ?, ?, ?, ?)`,
-      [first_name, last_name, email, passwordHash, phone]
+      [first_name, last_name, email, passwordHash, phone || null]
     );
 
     // Get created user
