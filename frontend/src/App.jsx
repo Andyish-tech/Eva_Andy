@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -14,14 +14,24 @@ import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-const MainLayout = ({ children }) => {
+// Admin imports
+import AdminRoute from './components/AdminRoute';
+import AdminLayout from './components/AdminLayout';
+import Overview from './pages/admin/Overview';
+import ProductManagement from './pages/admin/ProductManagement';
+import OrderManagement from './pages/admin/OrderManagement';
+
+const StoreLayout = ({ changeLanguage }) => {
   const location = useLocation();
   const isShopping = location.pathname === '/products';
   
   return (
-    <main className={`flex-1 ${isShopping ? '' : 'pt-16'}`}>
-      {children}
-    </main>
+    <>
+      <Navbar changeLanguage={changeLanguage} />
+      <main className={`flex-1 ${isShopping ? '' : 'pt-16'}`}>
+        <Outlet />
+      </main>
+    </>
   );
 };
 
@@ -36,9 +46,9 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <div className="min-h-screen bg-white flex flex-col font-sans">
-          <Navbar changeLanguage={changeLanguage} />
-          <MainLayout>
-            <Routes>
+          <Routes>
+            {/* Store Routes */}
+            <Route element={<StoreLayout changeLanguage={changeLanguage} />}>
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:id" element={<ProductDetail />} />
@@ -61,9 +71,17 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </MainLayout>
+            </Route>
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+              <Route index element={<Overview />} />
+              <Route path="products" element={<ProductManagement />} />
+              <Route path="orders" element={<OrderManagement />} />
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </div>
       </CartProvider>
     </AuthProvider>

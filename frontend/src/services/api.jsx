@@ -94,6 +94,7 @@ export const reportsAPI = {
   getProducts: () => api.get('/reports/products'),
   getUsers: () => api.get('/reports/users'),
   getRevenue: () => api.get('/reports/revenue'),
+  getDashboard: () => api.get('/reports/dashboard'),
 };
 
 export default api;

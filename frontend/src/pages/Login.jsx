@@ -44,7 +44,11 @@ const Login = () => {
     try {
       const result = await login(formData);
       if (result.success) {
-        navigate('/');
+        if (result.user?.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
       }
     } catch (error) {
       console.error('Login error:', error);
